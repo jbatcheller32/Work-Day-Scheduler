@@ -6,6 +6,8 @@ This app allows the user to add and removed items to a daily work scheduler. Eac
 When the user click the save button on a time block it will save this to the local storage, as well ass, get items from the local storage. 
 
 # links
+https://jbatcheller32.github.io/Work-Day-Scheduler/
+
 
 
 
