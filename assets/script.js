@@ -10,78 +10,52 @@ $(function () {
     localStorage.setItem(timeBlockId, userInput); // this will store these using the id as the key and the user input as the value
 
 
+    var savedUserInput = localStorage.getItem(userInput); // Getting the user input from localStorage
+
+
+    if (savedUserInput) {
+      var userInput = JSON.parse(savedUserInput); // Check if there is any saved user input
+
+      $("textarea").each(function () {   // this will Loop through each textarea element
+
+        var id = $(this).attr("id");  // Gets the id of the current textarea element
+        if (userInput.hasOwnProperty(id)) {   // Check if the id exists in the userInput
+          $(this).val(userInput[id]);
+        }
+      });
+    }
+
+
+
   });
-
-
-  // TODO: Add code to apply the past, present, or future class to each time
-  // block by comparing the id to the current hour. HINTS: How can the id
-  // attribute of each time-block be used to conditionally add or remove the
-  // past, present, and future classes? How can Day.js be used to get the
-  // current hour in 24-hour time?
-
-
 
   function addClasses() {
 
-    var currentTime = dayjs().format('h'); // this will display the current time in the console
-    console.log(currentTime);
+    var timeOfDay = dayjs().format('[hour-]h')
+    console.log('Current hour: ' + timeOfDay)
 
-    $('.time-block').each(function () {
+    $('.time-block').each(function () {   //Compares the current hour of the day to each planner div and applies a class to each
 
-      var blockTime = parseInt($(this).attr('id').split('-')[1]);   //this took foreeever to figure out, but this uses parseInt 
+      var domTimeBlock = $(this).attr('id');   // Fetches time block id
+      console.log(domTimeBlock);
 
-      if (blockTime < currentTime) {
-        $(this).addClass('past');
-      } else if (blockTime === currentTime) {
+      if (timeOfDay === domTimeBlock) {    // Determines what class to add to each block
         $(this).addClass('present');
+      } else if (timeOfDay > domTimeBlock) {
+        $(this).addClass('past');
       } else {
         $(this).addClass('future');
       }
     });
-
-
   }
-
   addClasses();
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  // TODO: Add code to get any user input that was saved in localStorage and set
-  // the values of the corresponding textarea elements. HINT: How can the id
-  // attribute of each time-block be used to do this?
-  //
-  // TODO: Add code to display the current date in the header of the page.
   var today = dayjs();
-  $('#currentDay').text(today.format('MMM D, YYYY'));
+  $('#currentDay').text(today.format('MMM D, YYYY'));   // This is the code to display the current date in the header of the page.
 
 });
 
